@@ -28,3 +28,12 @@ class ConfigDriveService(baseconfigdrive.BaseConfigDriveService,
     def __init__(self):
         super(ConfigDriveService, self).__init__(
             'config-2', 'openstack\\latest\\meta_data.json')
+        
+    @property
+    def can_update_password(self):
+        """The configdrive Password admin_pass supports password update."""
+        return True
+
+    def is_password_changed(self):
+        """Check if a new password exists in the Password Server."""
+        return bool(self._get_meta_data().get('admin_pass'))
