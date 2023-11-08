@@ -342,3 +342,15 @@ class NoCloudConfigDriveService(baseconfigdrive.BaseConfigDriveService):
 
         network_config_parser = NoCloudNetworkConfigV1Parser()
         return network_config_parser.parse(network_data.get("config"))
+    
+    def get_admin_password(self):
+        return self._get_meta_data().get('admin_pass')
+    
+    @property
+    def can_update_password(self):
+        """The configdrive Password admin_pass supports password update."""
+        return True
+
+    def is_password_changed(self):
+        """Check if a new password exists in the Password Server."""
+        return bool(self._get_meta_data().get('admin_pass'))
